@@ -60,6 +60,39 @@ function main() {
         prices = readLine().split(' ');
         prices = prices.map(Number);
         // only purchase a share if the stock price is higher on the following days
+        var profit = 0;
+        var shares = 0;
+        var highPriceArr = new Array();
+        for(var j=prices.length-1; j>=0; j--) {
+            highPriceArr[prices.length] = Number.NEGATIVE_INFINITY;
+            highPriceArr[j] = Math.max(prices[j], highPriceArr[j+1]);
+        }
+        for(var i = 0; i<prices.length; i++) {
+            var price = prices[i];
+            var currentMax = highPriceArr[i+1];
+            if(price < currentMax ) {
+                shares++;
+                profit -= price;
+            } else if (price > currentMax ) {
+                profit += shares * price;
+                shares = 0;
+            }
+        }
+        console.log(profit);
+    }
+    return 0;
+}
+
+
+/////////////// ALTERNATE SOLUTION ////////////////////
+
+function main() {
+    var t = parseInt(readLine());
+    for(var a0 = 0; a0 < t; a0++){
+        var N = parseInt(readLine());
+        prices = readLine().split(' ');
+        prices = prices.map(Number);
+        // only purchase a share if the stock price is higher on the following days
         var current_max = 0;
         var profit = 0;
         for(var i=prices.length-1; i>=0; i--){
